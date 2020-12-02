@@ -47,6 +47,7 @@ initial begin
     CPU.IF_ID.instruc_o  = 32'b0;
 
     CPU.ID_EX.RegWrite_o = 1'b0;
+    CPU.ID_EX.RegWrite   = 1'b1;
     CPU.ID_EX.MemtoReg_o = 1'b0;
     CPU.ID_EX.MemRead_o  = 1'b0;
     CPU.ID_EX.MemWrite_o = 1'b0;

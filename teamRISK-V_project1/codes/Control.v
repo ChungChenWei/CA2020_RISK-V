@@ -7,7 +7,7 @@ module Control
 (
     Op_i,
     NoOP,
-    RegWrite_o
+    RegWrite_o,
     MemtoReg_o,
     MemRead_o,
     MemWrite_o,
@@ -21,7 +21,7 @@ input   [6:0] Op_i;
 input 		  NoOP;
 output  [1:0] ALUOp_o;
 output        RegWrite_o, MemtoReg_o, MemRead_o, MemWrite_o,
-			  ALUOp_o, ALUSrc_o, Branch_o;
+			  ALUSrc_o, Branch_o;
 
 assign RegWrite_o = (NoOP == 1) ? 0 :
 					(Op_i == `R_type) ? 1'b1 : 
@@ -29,7 +29,7 @@ assign RegWrite_o = (NoOP == 1) ? 0 :
 				  	(Op_i == `lw_op) ? 1'b1 :
 				  	(Op_i == `sw_op) ? 1'b0 :
 				  	(Op_i == `beq_op) ? 1'b0 :
-				 	1'bX;
+				 	1'b0;
 
 assign MemtoReg_o = (NoOP == 1) ? 0 :
 					(Op_i == `R_type) ? 1'b0 : 
@@ -37,7 +37,7 @@ assign MemtoReg_o = (NoOP == 1) ? 0 :
 				  	(Op_i == `lw_op) ? 1'b1 :
 				  	(Op_i == `sw_op) ? 1'bX :
 				  	(Op_i == `beq_op) ? 1'bX :
-				 	1'bX;
+				 	1'bx;
 
 assign MemRead_o =  (NoOP == 1) ? 0 :
 					(Op_i == `R_type) ? 1'b0 : 
@@ -45,7 +45,7 @@ assign MemRead_o =  (NoOP == 1) ? 0 :
 				  	(Op_i == `lw_op) ? 1'b1 :
 				  	(Op_i == `sw_op) ? 1'b0 :
 				  	(Op_i == `beq_op) ? 1'b0 :
-				 	1'bX;
+				 	1'b0;
 
 assign MemWrite_o = (NoOP == 1) ? 0 :
 					(Op_i == `R_type) ? 1'b0 : 
@@ -53,7 +53,7 @@ assign MemWrite_o = (NoOP == 1) ? 0 :
 				  	(Op_i == `lw_op) ? 1'b0 :
 				  	(Op_i == `sw_op) ? 1'b1 :
 				  	(Op_i == `beq_op) ? 1'b0 :
-				 	1'bX;
+				 	1'b0;
 
 assign ALUOp_o = 	(NoOP == 1) ? 0 :
 					(Op_i == `R_type) ? 2'b10 : 
@@ -61,15 +61,15 @@ assign ALUOp_o = 	(NoOP == 1) ? 0 :
 				 	(Op_i == `lw_op) ? 2'b00 :
 				 	(Op_i == `sw_op) ? 2'b00 :
 				 	(Op_i == `beq_op) ? 2'b01:
-				 	2'bXX;
+				 	2'b00;
 
 assign ALUSrc_o = 	(NoOP == 1) ? 0 :
 					(Op_i == `R_type) ? 1'b0 : 
-				  	(Op_i == `I_type) ? 1'b0 :
+				  	(Op_i == `I_type) ? 1'b1 :
 				  	(Op_i == `lw_op) ? 1'b1 :
 				  	(Op_i == `sw_op) ? 1'b1 :
 				  	(Op_i == `beq_op) ? 1'b0 :
-				 	1'bX;
+				 	1'b0;
 
 assign Branch_o =   (NoOP == 1) ? 0 :
 					(Op_i == `beq_op) ? 1'b1 : 1'b0;

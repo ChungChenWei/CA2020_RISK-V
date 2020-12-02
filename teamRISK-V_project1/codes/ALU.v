@@ -9,15 +9,15 @@
 
 module ALU
 (
+    data0_i,
     data1_i,
-    data2_i,
     ALUCtrl_i,
     data_o
 );
 
 // Ports
 input  [3:0]  ALUCtrl_i;
-input signed [31:0] data1_i, data2_i;
+input signed [31:0] data0_i, data1_i;
 output [31:0] data_o;
 
 // Wires & Registers
@@ -25,18 +25,18 @@ reg signed [31:0] data_reg;
 
 assign data_o = data_reg;
 
-always @(data1_i or data2_i or ALUCtrl_i) begin
+always @(data0_i or data1_i or ALUCtrl_i) begin
     case (ALUCtrl_i)
-        `AND:    data_reg = data1_i  & data2_i;
-        `XOR:    data_reg = data1_i  ^ data2_i;
-        `SLL:    data_reg = data1_i << data2_i;
-        `ADD:    data_reg = data1_i  + data2_i;
-        `SUB:    data_reg = data1_i  - data2_i;
-        `MUL:    data_reg = data1_i  * data2_i;
-        `ADDI:   data_reg = data1_i  + data2_i;
-        // `SRAI:   data_reg = $signed(data1_i) >>> data2_i[4:0];
-        `SRAI:   data_reg = data1_i >>> data2_i[4:0];
-        default: data_reg = data1_i;
+        `AND:    data_reg = data0_i  & data1_i;
+        `XOR:    data_reg = data0_i  ^ data1_i;
+        `SLL:    data_reg = data0_i << data1_i;
+        `ADD:    data_reg = data0_i  + data1_i;
+        `SUB:    data_reg = data0_i  - data1_i;
+        `MUL:    data_reg = data0_i  * data1_i;
+        `ADDI:   data_reg = data0_i  + data1_i;
+        // `SRAI:   data_reg = $signed(data0_i) >>> data1_i[4:0];
+        `SRAI:   data_reg = data0_i >>> data1_i[4:0];
+        default: data_reg = data0_i;
     endcase
 end
 

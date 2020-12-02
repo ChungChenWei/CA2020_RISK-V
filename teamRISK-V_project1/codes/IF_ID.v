@@ -1,6 +1,7 @@
 module IF_ID
 (
     clk_i,
+    rst_i,
 
     IFID_Write_i,
     Flush_i,
@@ -12,7 +13,7 @@ module IF_ID
 );
 
 // Interface
-input          clk_i;
+input          clk_i, rst_i;
 input          IFID_Write_i, Flush_i;
 
 input  [31:0]  PC_i, instruc_i;
@@ -20,7 +21,7 @@ output [31:0]  PC_o, instruc_o;
 // memory
 reg    [31:0]  PC_o, instruc_o;
 
-always@(posedge clk_i) begin
+always@(posedge clk_i or posedge rst_i) begin
     // If write is set
     if(IFID_Write_i) begin 
         PC_o       <=  PC_i;

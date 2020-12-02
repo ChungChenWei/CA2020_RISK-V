@@ -1,6 +1,7 @@
 module ID_EX
 (
     clk_i,
+    rst_i,
 
     RegWrite_i,
     MemtoReg_i,
@@ -32,7 +33,7 @@ module ID_EX
 );
 
 // Interface
-input          clk_i;
+input          clk_i, rst_i;
 input          RegWrite_i, MemtoReg_i, MemRead_i, MemWrite_i;
 input          ALUSrc_i;
 input   [1:0]  ALUOp_i;
@@ -52,6 +53,7 @@ output  [9:0]  funct_o;
 output [31:0]  imm_o;
 // memory
 reg            RegWrite_o, MemtoReg_o, MemRead_o, MemWrite_o;
+reg            RegWrite;
 reg            ALUSrc_o;
 reg     [1:0]  ALUOp_o;
 
@@ -62,19 +64,21 @@ reg    [31:0]  imm_o;
 
 always@(posedge clk_i) begin
     // use all non-blocking
-    RegWrite_o  <=  RegWrite_i;
-    MemtoReg_o  <=  MemtoReg_i;
-    MemRead_o   <=  MemRead_i;
-    MemWrite_o  <=  MemWrite_i;
-    ALUOp_o     <=  ALUOp_i;
-    ALUSrc_o    <=  ALUSrc_i;
-    rs1_data_o  <=  rs1_data_i;
-    rs2_data_o  <=  rs2_data_i;
-    rs1_addr_o  <=  rs1_addr_i;
-    rs2_addr_o  <=  rs2_addr_i;
-    rd_addr_o   <=  rd_addr_i;
-    funct_o     <=  funct_i;
-    imm_o       <=  imm_i;
+    if(~rst_i) begin
+        RegWrite_o  <=  RegWrite_i;
+        MemtoReg_o  <=  MemtoReg_i;
+        MemRead_o   <=  MemRead_i;
+        MemWrite_o  <=  MemWrite_i;
+        ALUOp_o     <=  ALUOp_i;
+        ALUSrc_o    <=  ALUSrc_i;
+        rs1_data_o  <=  rs1_data_i;
+        rs2_data_o  <=  rs2_data_i;
+        rs1_addr_o  <=  rs1_addr_i;
+        rs2_addr_o  <=  rs2_addr_i;
+        rd_addr_o   <=  rd_addr_i;
+        funct_o     <=  funct_i;
+        imm_o       <=  imm_i;
+    end
 
 end
 
