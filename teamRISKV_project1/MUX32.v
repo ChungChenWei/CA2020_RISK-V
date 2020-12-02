@@ -1,18 +1,22 @@
 module MUX32
 (
-    data1_i, 
-    data2_i,
+    data0_i, 
+    data1_i,
+    data2_i, 
+    data3_i,
     select_i,
     data_o
 );
 
 // Ports
-input  [31:0] data1_i, data2_i;
-input         select_i;
+input  [31:0] data0_i, data1_i, data2_i, data3_i;
+input   [1:0] select_i;
+
 output [31:0] data_o;
  
-// 0 for first; 1 for second
-assign data_o = (select_i == 1'b0) ? data1_i :
-                (select_i == 1'b1) ? data2_i : 32'bx;
+assign data_o = (select_i == 1'b00) ? data0_i :
+                (select_i == 1'b01) ? data1_i : 
+                (select_i == 1'b10) ? data2_i : 
+                (select_i == 1'b11) ? data3_i : 32'bx;
 
 endmodule
