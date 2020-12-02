@@ -43,7 +43,36 @@ initial begin
     // [RegisterInitialization] DO NOT REMOVE THIS FLAG !!!
 
     // TODO: initialize your pipeline registers
+    CPU.IF_ID.PC_o       = 32'b0;
+    CPU.IF_ID.instruc_o  = 32'b0;
 
+    CPU.ID_EX.RegWrite_o = 1'b0;
+    CPU.ID_EX.MemtoReg_o = 1'b0;
+    CPU.ID_EX.MemRead_o  = 1'b0;
+    CPU.ID_EX.MemWrite_o = 1'b0;
+    CPU.ID_EX.ALUSrc_o   = 1'b0;
+    CPU.ID_EX.ALUOp_o    = 2'b0;
+    CPU.ID_EX.rs1_addr_o = 5'b0;
+    CPU.ID_EX.rs2_addr_o = 5'b0;
+    CPU.ID_EX.rd_addr_o  = 5'b0;
+    CPU.ID_EX.funct_o    = 10'b0;
+    CPU.ID_EX.rs1_data_o = 32'b0;
+    CPU.ID_EX.rs2_data_o = 32'b0;
+    CPU.ID_EX.imm_o      = 32'b0;
+
+    CPU.EX_MEM.RegWrite_o = 1'b0;
+    CPU.EX_MEM.MemtoReg_o = 1'b0;
+    CPU.EX_MEM.MemRead_o  = 1'b0;
+    CPU.EX_MEM.MemWrite_o = 1'b0;
+    CPU.EX_MEM.rd_addr_o  = 5'b0;
+    CPU.EX_MEM.ALUout_o   = 32'b0;
+    CPU.EX_MEM.rs2_data_o = 32'b0;
+
+    CPU.MEM_WB.RegWrite_o = 1'b0;
+    CPU.MEM_WB.MemtoReg_o = 1'b0;
+    CPU.MEM_WB.rd_addr_o  = 5'b0;
+    CPU.MEM_WB.Memout_o   = 32'b0;
+    CPU.MEM_WB.ALUout_o   = 32'b0;
     
     // Load instructions into instruction memory
     // Make sure you change back to "instruction.txt" before submission
@@ -69,8 +98,8 @@ always@(posedge Clk) begin
         $finish;
 
     // put in your own signal to count stall and flush
-    if(CPU.Hazard_Detection.Stall_o == 1 && CPU.Control.Branch_o == 0)stall = stall + 1;
-    if(CPU.Flush == 1)flush = flush + 1;  
+    if(CPU.Hazard.Stall_o == 1 && CPU.Control.Branch_o == 0)stall = stall + 1;
+    if(CPU.AND.bool_o == 1)flush = flush + 1;  
 
     // print PC
     // DO NOT CHANGE THE OUTPUT FORMAT
