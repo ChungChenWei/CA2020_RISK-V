@@ -247,7 +247,7 @@ Registers Registers(
     .clk_i      (clk_i),
     .RS1addr_i  (IF_ID.instruc_o[19:15]),
     .RS2addr_i  (IF_ID.instruc_o[24:20]),
-    .RDaddr_i   (IF_ID.instruc_o[11:7]), 
+    .RDaddr_i   (MEM_WB.rd_addr_o), 
     .RDdata_i   (MUX_WB.data_o),
     .RegWrite_i (MEM_WB.RegWrite_o), 
     .RS1data_o  (), 
