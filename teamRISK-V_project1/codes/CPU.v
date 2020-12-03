@@ -19,7 +19,7 @@ Adder Add_PC1(
 
 
 Adder Add_PC2(
-    .data0_in   ({Imm_Gen.imm_o[31:1], 1'b0}),
+    .data0_in   ({Imm_Gen.imm_o[30:0], 1'b0}),
     .data1_in   (IF_ID.PC_o),
     .data_o     ()
 );
