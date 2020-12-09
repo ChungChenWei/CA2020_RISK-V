@@ -31,7 +31,7 @@ team: RISK-V
 * `output` :
     * `imm_o`
 
-輸入整個 instruction （`instruc_i`），如果 `instr[5] == 0`（在用的到 `imm` 的前提下，代表的是 addi、srai、lw），就輸出 `instr[31:20]` 前面補 20 位 `instr[31]`, 接著如果 `instr[6] == 0` 的話（代表是 sw），輸出 （`instr[31:25]` concatenate `instr[11:7]`）前面補 20 位 `instr[31]`, 如果不是以上的 case (代表是 beq), 就輸出（`instr[31]` concatenate `instr[7]` concatenate `instr[30:25]` concatenate `instr[11:8]`）前面補 20 位 `instr[31]`。
+輸入整個 instruction （`instruc_i`），如果 `instr[5] == 0`（在用的到 `imm` 的前提下，代表的是 addi、srai、lw），就輸出 `instr[31:20]` 前面補 20 位 `instr[31]`, 接著如果 `instr[6] == 0` 的話（代表是 sw），輸出 （`instr[31:25]` concatenate `instr[11:7]`）前面補 20 位 `instr[31]`, 如果不是以上的 case（代表是 beq）, 就輸出（`instr[31]` concatenate `instr[7]` concatenate `instr[30:25]` concatenate `instr[11:8]`）前面補 20 位 `instr[31]`。
 
 **ALU**
 
@@ -68,8 +68,8 @@ team: RISK-V
     * `Branch_o`
 
 輸出主要的 control signal。
-* `RegWrite_o`：控制資料是否寫入 Register。0 表示不寫入，1 表示寫入。R-type、I-type 或 load instruction 時，輸出 1；save 或branch instruction 時，輸出 0。
-* `MemtoReg_o`：控制寫入 Register RD 的值。0 表示使用 ALU，1 表示使用從 Data Memory 讀出的值。R-type、I-type instruction 時，輸出 0；load instruction 時，輸出 1；save 與 branch instruction 由於不寫入 RD，設為don't care(X)。
+* `RegWrite_o`：控制資料是否寫入 Register。0 表示不寫入，1 表示寫入。R-type、I-type 或 load instruction 時，輸出 1；save 或 branch instruction 時，輸出 0。
+* `MemtoReg_o`：控制寫入 Register RD 的值。0 表示使用 ALU，1 表示使用從 Data Memory 讀出的值。R-type、I-type instruction 時，輸出 0；load instruction 時，輸出 1；save 與 branch instruction 由於不寫入 RD，設為 don't care（`x`）。
 * `MemRead_o`：控制 Data Memory 是否進行讀取。0 表示不讀，1 表示進行讀取。除了 load instruction 需要讀取而設為 1，其餘 instruction 時都設為 0。
 * `MemWrite_o`：控制 Data Memory 是否進行寫入。0 表示不寫，1 表示進行寫入。除了 save instruction 需要寫入而設為 1，其餘 instruction 時都設為 0。
 * `ALUOp_o`：控制傳給 ALU_Control 的值，幫助 ALU_Control 進行正確的計算。我們對於 R-type instruction 輸出 `2'b10`；I-type instruction 輸出 `2'b11`；load 和 save instruction 輸出 `2'b00`；branch instruction 輸出 `2'b01`。
@@ -121,7 +121,7 @@ team: RISK-V
 * 判斷是否需要進行Forwarding。
     * 當 pipeline latch EX/MEM 中的 RegWrite signal 為 1，Register RD 不為 0，且 RD = pipeline latch ID/EX 中的 RS1 時，會發生 EX hazard。此時 ForwardA_o 輸出 `2'b10`，使 ALU 使用 EX/MEM pipeline latch 裡的 register 資料做運算。
     * 當 pipeline latch MEM/WB 中的 RegWrite signal 為 1，Register RD 不為 0，且 RD = pipeline latch ID/EX 中的 RS1 時，會發生 MEM hazard。此時 ForwardA_o 輸出 `2'b01`，使 ALU 使用 MEM/WB pipeline latch 裡的 register 資料做運算。
-    * ForwardB_o 與 ForwardA_o 雷同。ForwarA_o 控制 ALU 的 `data0`來源，ForwardB_o 控制 ALU 的 `data1` 來源。
+    * ForwardB_o 與 ForwardA_o 雷同。ForwarA_o 控制 ALU 的 `data0` 來源，ForwardB_o 控制 ALU 的 `data1` 來源。
     * 當 EX hazard 與 MEM hazard 同時發生時，需使用 EX hazard 的 forwarding 結果，故優先判斷 EX hazard。
 
 **Hazard Detection Unit**
@@ -243,7 +243,7 @@ team: RISK-V
 * `input` :
 * `output` :
 
-初始化的過程中，依據各個資料的 bit 數，設成適當 bit 數的 0，然後在 always block 裡面加上計算 stall 和 flush 的次數。
+初始化的過程中，依據各個資料的 bit 數，設成適當 bit 數的 0，然後在 `always` block 裡面加上計算 stall 和 flush 的次數。
 
 ### Members and Teamwork
 - B07209016 鐘晨瑋：負責新增 `pipeline latch`、`testbench`、`Hazard Detection Unit`，和修改 `Immediate Generator` 和其餘小模組（`MUX`、`Adder`、`AND`、`Zero`）。第一階段 `Debug`（使 CPU 可以正常執行一般指令、處理 Forwarding、Stall）。
