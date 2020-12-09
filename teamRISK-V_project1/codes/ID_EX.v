@@ -62,7 +62,7 @@ reg     [4:0]  rs1_addr_o, rs2_addr_o, rd_addr_o;
 reg     [9:0]  funct_o;
 reg    [31:0]  imm_o;
 
-always@(posedge clk_i) begin
+always@(posedge clk_i or posedge rst_i) begin
     // use all non-blocking
     if(~rst_i) begin
         RegWrite_o  <=  RegWrite_i;
@@ -79,7 +79,6 @@ always@(posedge clk_i) begin
         funct_o     <=  funct_i;
         imm_o       <=  imm_i;
     end
-
 end
 
 endmodule
