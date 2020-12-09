@@ -155,7 +155,7 @@ team: RISK-V
     * `instruc_o`
 
 使用 `reg` 宣告所需要的暫存變數。
-用 `alway` block 判斷，當 `clk_i` 或 `rst_i` 上升時：
+用 `always` block 判斷，當 `clk_i` 或 `rst_i` 上升時：
 - 如果 `IFID_Write_i` 為 `1'b1`，會更新（使用 `non-blocking` 把 input 指定給 output）`PC`、`instruc_o`。
 - 如果 `Flush_i` 為 `1'b1`，會把 `PC`、`instruc_o` 更新為 `32'b0`。
 
@@ -192,7 +192,7 @@ team: RISK-V
     * `imm_o` (32 bits)
 
 使用 `reg` 宣告所需要的暫存變數。
-用 `alway` block 判斷，當 `clk_i` 或 `rst_i` 上升時，如果 `rst_i` 為 `1'b0` ，則把所有的變數（除了 `clk_i` 和 `rst_i`）都以 `ID` stage 來的 input 使用 `non-blocking` 指定給 `EX` stage 的 output。
+用 `always` block 判斷，當 `clk_i` 或 `rst_i` 上升時，如果 `rst_i` 為 `1'b0` ，則把所有的變數（除了 `clk_i` 和 `rst_i`）都以 `ID` stage 來的 input 使用 `non-blocking` 指定給 `EX` stage 的 output。
 註：因為初始化是由 `testbench` 來執行，因此當 `rst_i` 為 `1'b1` 時，代表目前的 output 已經被初始化好了，不需要進行更新，否則會被 input 蓋掉變成 `1'bx`。
 
 **Pipeline latch EX/MEM**
@@ -216,7 +216,7 @@ team: RISK-V
     * `rd_addr_o`
 
 使用 `reg` 宣告所需要的暫存變數。
-用 `alway` block 判斷，當 `clk_i` 或 `rst_i` 上升時，如果 `rst_i` 為 `1'b0` ，則把所有的變數（除了 `clk_i` 和 `rst_i`）都以 `EX` stage 來的 input 使用 `non-blocking` 指定給 `MEM` stage 的 output。
+用 `always` block 判斷，當 `clk_i` 或 `rst_i` 上升時，如果 `rst_i` 為 `1'b0` ，則把所有的變數（除了 `clk_i` 和 `rst_i`）都以 `EX` stage 來的 input 使用 `non-blocking` 指定給 `MEM` stage 的 output。
 註：因為初始化是由 `testbench` 來執行，因此當 `rst_i` 為 `1'b1` 時，代表目前的 output 已經被初始化好了，不需要進行更新，否則會被 input 蓋掉變成 `1'bx`。
 
 **Pipeline latch MEM/WB**
@@ -236,7 +236,7 @@ team: RISK-V
     * `rd_addr_o`
 
 使用 `reg` 宣告所需要的暫存變數。
-用 `alway` block 判斷，當 `clk_i` 或 `rst_i` 上升時，如果 `rst_i` 為 `1'b0` ，則把所有的變數（除了 `clk_i` 和 `rst_i`）都以 `MEM` stage 來的 input 使用 `non-blocking` 指定給 `WB` stage 的 output。
+用 `always` block 判斷，當 `clk_i` 或 `rst_i` 上升時，如果 `rst_i` 為 `1'b0` ，則把所有的變數（除了 `clk_i` 和 `rst_i`）都以 `MEM` stage 來的 input 使用 `non-blocking` 指定給 `WB` stage 的 output。
 註：因為初始化是由 `testbench` 來執行，因此當 `rst_i` 為 `1'b1` 時，代表目前的 output 已經被初始化好了，不需要進行更新，否則會被 input 蓋掉變成 `1'bx`。
 
 **Testbench**
@@ -262,4 +262,3 @@ team: RISK-V
 ### Development Environment
 * OS: Windows 10 Home ver 1909
 * Compiler: Icarus Verilog version 11.0
-
